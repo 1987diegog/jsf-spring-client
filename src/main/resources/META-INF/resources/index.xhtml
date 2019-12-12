@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sec="http://www.springframework.org/security/tags">
+
+<h:head>
+	<title>Gestión Personas</title>
+	<h:outputStylesheet name="/css/main.css" />
+</h:head>
+
+<h:body>
+
+	<div class="authorization-div">
+		<sec:authorize access="hasRole('ROLE_USER')">
+			<p:outputLabel value="You have the USER role" />
+		</sec:authorize>
+		<sec:authorize access="hasRole('ROLE_ADMIN')">
+			<p:outputLabel value="You have the ADMIN role" />
+		</sec:authorize>
+	</div>
+
+	<h:form>
+		<p:panel header="Gestión Personas">
+			<h:panelGrid columns="2" cellpadding="4">
+
+				<h:outputText value="Nombre: " />
+				<p:inputText value="#{index.firstName}" />
+
+				<h:outputText value="Apellido: " />
+				<p:inputText value="#{index.lastName}" />
+
+				<h:outputText value="Telefono: " />
+				<p:inputText value="#{index.cellphone}" />
+
+				<h:outputText value="Email: " />
+				<p:inputText value="#{index.email}" />
+
+				<h:outputText value="Direccion: " />
+				<p:inputText value="#{index.streetAddress}" />
+
+				<h:outputText value="age " />
+				<p:inputNumber value="#{index.age}" />
+
+				<p:commandButton value="Insertar" update="idInsertPersonDialog"
+					oncomplete="PF('insertPersonDialog').show()" />
+
+				<p:commandButton value="Ver personas" update="idViewPersonsDialog"
+					oncomplete="PF('viewPersonsDialog').show()" />
+
+				<p:commandButton value="Ver ultima persona"
+					update="idViewPersonDialog"
+					oncomplete="PF('viewPersonDialog').show()" />
+					
+			</h:panelGrid>
+		</p:panel>
+
+		<p:dialog header="Personas" widgetVar="insertPersonDialog"
+			modal="true" resizable="false">
+			<h:panelGrid id="idInsertPersonDialog" columns="1" cellpadding="4">
+				<h:outputText value="#{index.showInsertPerson()}" />
+			</h:panelGrid>
+		</p:dialog>
+
+		<p:dialog header="Personas" widgetVar="viewPersonsDialog" modal="true"
+			resizable="false">
+			<h:panelGrid id="idViewPersonsDialog" columns="1" cellpadding="4">
+				<h:outputText value="#{index.showAllPersons()}" />
+			</h:panelGrid>
+		</p:dialog>
+
+		<p:dialog header="Personas" widgetVar="viewPersonDialog" modal="true"
+			resizable="false">
+			<h:panelGrid id="idViewPersonDialog" columns="1" cellpadding="4">
+				<h:outputText value="#{index.showPerson()}" />
+			</h:panelGrid>
+		</p:dialog>
+	</h:form>
+
+	<h:form onsubmit="this.action='#{request.contextPath}/logout';"
+		class="logout-form">
+		<p:commandButton value="Logout" ajax="false" />
+	</h:form>
+
+</h:body>
+</html>
